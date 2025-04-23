@@ -188,17 +188,16 @@ def crear_visualizaciones(resultados):
             st.text(resultados["texto_traducido"])
     
     # Análisis de frases
-st.subheader("Frases detectadas")
-if resultados["frases"]:
-    for i, frase_dict in enumerate(resultados["frases"][:10], 1):
-        frase_original = frase_dict["original"]
-        frase_traducida = frase_dict["traducido"]
-        
-        try:
-            blob_frase = TextBlob(frase_traducida)
-            sentimiento = blob_frase.sentiment.polarity
+    st.subheader("Frases detectadas")
+    if resultados["frases"]:
+        for i, frase_dict in enumerate(resultados["frases"][:10], 1):
+            frase_original = frase_dict["original"]
+            frase_traducida = frase_dict["traducido"]
             
-            # Determinar emoji e imagen
+            try:
+                blob_frase = TextBlob(frase_traducida)
+                sentimiento = blob_frase.sentiment.polarity
+                
             if sentimiento > 0.05:
                 emoji = "😊"
                 imagen_emoji = "happy.png"
@@ -208,21 +207,16 @@ if resultados["frases"]:
             else:
                 emoji = "😐"
                 imagen_emoji = "neutral.png"
-            
-            # Mostrar imagen + emoji + texto
-            col1, col2 = st.columns([1, 9])
-            with col1:
-                st.image(imagen_emoji, width=40)
-            with col2:
+                
                 st.write(f"{i}. {emoji} **Original:** *\"{frase_original}\"*")
                 st.write(f"   **Traducción:** *\"{frase_traducida}\"* (Sentimiento: {sentimiento:.2f})")
-            st.write("---")
-        except:
-            st.write(f"{i}. **Original:** *\"{frase_original}\"*")
-            st.write(f"   **Traducción:** *\"{frase_traducida}\"*")
-            st.write("---")
-else:
-    st.write("No se detectaron frases.")
+                st.write("---")
+            except:
+                st.write(f"{i}. **Original:** *\"{frase_original}\"*")
+                st.write(f"   **Traducción:** *\"{frase_traducida}\"*")
+                st.write("---")
+    else:
+        st.write("No se detectaron frases.")
 
 # Lógica principal según el modo seleccionado
 if modo == "Texto directo":
