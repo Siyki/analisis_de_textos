@@ -39,7 +39,7 @@ st.markdown(
 )
 
 # Título y descripción
-st.title(f"<span style='color:{azul};'>📝 Analizador de Texto con TextBlob</span>", unsafe_allow_html=True)
+st.markdown(f"<h1 style='color:{azul};'>📝 Analizador de Texto con TextBlob</h1>", unsafe_allow_html=True)
 st.markdown(f"""
 <p style='color:{azul};'>
 Esta aplicación utiliza TextBlob para realizar un análisis básico de texto:
