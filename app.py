@@ -259,3 +259,4 @@ elif modo == "Archivo de texto 📂":
 # Información adicional en un cofre del tesoro expandible
 with st.expander(f"<span style='color:{azul};'>📜 ¡Secretos del Análisis Revelados! 📜</span>", unsafe_allow_html=True):
     st.markdown(
+    )
