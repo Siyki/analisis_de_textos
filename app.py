@@ -3,6 +3,8 @@ import pandas as pd
 from textblob import TextBlob
 import re
 from googletrans import Translator
+import os
+from PIL import Image
 
 # Configuración de la página
 st.set_page_config(
@@ -140,8 +142,7 @@ def procesar_texto(texto):
 
 # Función para crear visualizaciones usando componentes nativos de Streamlit
 def crear_visualizaciones(resultados):
-   import os
-    from PIL import Image
+
 
     col1, col2 = st.columns(2)
 
