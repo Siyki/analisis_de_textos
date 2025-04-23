@@ -271,7 +271,9 @@ elif modo == "Archivo de texto":
 
     if archivo is not None:
         try:
-            contenido = archivo.getvalue().decode("utf-8")
+            contenido = archivo.getvalue()
+if isinstance(contenido, bytes):
+    contenido = contenido.decode("utf-8")
             with st.expander("Ver contenido del archivo"):
                 st.text(contenido[:1000] + ("..." if len(contenido) > 1000 else ""))
 
