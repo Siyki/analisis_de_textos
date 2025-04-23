@@ -220,10 +220,10 @@ def crear_visualizaciones(resultados):
         col1, col2 = st.columns(2)
         with col1:
             st.markdown(f"<span style='color:{azul};'>**Texto Original (Español):**</span>", unsafe_allow_html=True)
-            st.text(resultados["texto_original"])
+            st.text_area("", resultados["texto_original"], height=150)
         with col2:
             st.markdown(f"<span style='color:{azul};'>**Texto Traducido (Inglés):**</span>", unsafe_allow_html=True)
-            st.text(resultados["texto_traducido"])
+            st.text_area("", resultados["texto_traducido"], height=150)
 
     # Análisis de frases
     st.subheader(f"<span style='color:{azul};'>Frases detectadas</span>", unsafe_allow_html=True)
@@ -237,9 +237,9 @@ def crear_visualizaciones(resultados):
                 sentimiento = blob_frase.sentiment.polarity
 
                 emoji = "😐"
-                if sentimiento > 0:
+                if sentimiento > 0.05:
                     emoji = "😊"
-                elif sentimiento < 0:
+                elif sentimiento < -0.05:
                     emoji = "😟"
 
                 st.markdown(f"{i}. {emoji} **Original:** *\"{frase_original}\"*", unsafe_allow_html=True)
@@ -299,5 +299,3 @@ with st.expander(f"<span style='color:{azul};'>📚 Información sobre el análi
     pandas
     googletrans
     Pillow (para las imágenes)
-    ```
-    """, unsafe_allow_html=True)
