@@ -3,6 +3,7 @@ import pandas as pd
 from textblob import TextBlob
 import re
 from googletrans import Translator
+from PIL import Image
 
 # Configuración de la página
 st.set_page_config(
@@ -19,6 +20,8 @@ Esta aplicación utiliza TextBlob para realizar un análisis básico de texto:
 - Extracción de palabras clave
 - Análisis de frecuencia de palabras
 """)
+
+fotito=Image.open("happy.png")
 
 # Barra lateral
 st.sidebar.title("Opciones")
@@ -198,15 +201,12 @@ def crear_visualizaciones(resultados):
                 blob_frase = TextBlob(frase_traducida)
                 sentimiento = blob_frase.sentiment.polarity
                 
-            if sentimiento > 0.05:
-                emoji = "😊"
-                imagen_emoji = "happy.png"
-            elif sentimiento < -0.05:
-                emoji = "😟"
-                imagen_emoji = "sad.png"
-            else:
-                emoji = "😐"
-                imagen_emoji = "neutral.png"
+                if sentimiento > 0.05:
+                    emoji = "😊"
+                elif sentimiento < -0.05:
+                    emoji = "😟"
+                else:
+                    emoji = "😐"
                 
                 st.write(f"{i}. {emoji} **Original:** *\"{frase_original}\"*")
                 st.write(f"   **Traducción:** *\"{frase_traducida}\"* (Sentimiento: {sentimiento:.2f})")
@@ -265,3 +265,4 @@ with st.expander("📚 Información sobre el análisis"):
     pandas
     ```
     """)
+
