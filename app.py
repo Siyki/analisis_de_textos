@@ -140,43 +140,47 @@ def procesar_texto(texto):
 
 # Función para crear visualizaciones usando componentes nativos de Streamlit
 def crear_visualizaciones(resultados):
+   import os
+    from PIL import Image
+
     col1, col2 = st.columns(2)
-    
+
     # Visualización de sentimiento y subjetividad con barras de progreso de Streamlit
     with col1:
         st.subheader("Análisis de Sentimiento y Subjetividad")
-        
-        # Normalizar valores para mostrarlos en barras de progreso
-        # Sentimiento va de -1 a 1, lo normalizamos a 0-1 para la barra
+
         sentimiento_norm = (resultados["sentimiento"] + 1) / 2
-        
         st.write("**Sentimiento:**")
         st.progress(sentimiento_norm)
-        
+
         if resultados["sentimiento"] > 0.05:
             st.success(f"📈 Positivo ({resultados['sentimiento']:.2f})")
+            imagen_path = "happy.png"
         elif resultados["sentimiento"] < -0.05:
             st.error(f"📉 Negativo ({resultados['sentimiento']:.2f})")
+            imagen_path = "sad.png"
         else:
             st.info(f"📊 Neutral ({resultados['sentimiento']:.2f})")
-        
-        # Subjetividad ya está en el rango 0-1
+            imagen_path = "neutral.png"
+
+        # Mostrar imagen de sentimiento si existe
+        if os.path.exists(imagen_path):
+            imagen = Image.open(imagen_path)
+            st.image(imagen, width=120)
+
         st.write("**Subjetividad:**")
         st.progress(resultados["subjetividad"])
-        
         if resultados["subjetividad"] > 0.5:
             st.warning(f"💭 Alta subjetividad ({resultados['subjetividad']:.2f})")
         else:
             st.info(f"📋 Baja subjetividad ({resultados['subjetividad']:.2f})")
-    
-    # Palabras más frecuentes usando chart de Streamlit
+
     with col2:
         st.subheader("Palabras más frecuentes")
         if resultados["contador_palabras"]:
             palabras_top = dict(list(resultados["contador_palabras"].items())[:10])
             st.bar_chart(palabras_top)
-    
-    # Mostrar texto traducido
+
     st.subheader("Texto Traducido")
     with st.expander("Ver traducción completa"):
         col1, col2 = st.columns(2)
@@ -186,25 +190,23 @@ def crear_visualizaciones(resultados):
         with col2:
             st.markdown("**Texto Traducido (Inglés):**")
             st.text(resultados["texto_traducido"])
-    
-    # Análisis de frases
+
     st.subheader("Frases detectadas")
     if resultados["frases"]:
         for i, frase_dict in enumerate(resultados["frases"][:10], 1):
             frase_original = frase_dict["original"]
             frase_traducida = frase_dict["traducido"]
-            
             try:
                 blob_frase = TextBlob(frase_traducida)
                 sentimiento = blob_frase.sentiment.polarity
-                
+
                 if sentimiento > 0.05:
                     emoji = "😊"
                 elif sentimiento < -0.05:
                     emoji = "😟"
                 else:
                     emoji = "😐"
-                
+
                 st.write(f"{i}. {emoji} **Original:** *\"{frase_original}\"*")
                 st.write(f"   **Traducción:** *\"{frase_traducida}\"* (Sentimiento: {sentimiento:.2f})")
                 st.write("---")
@@ -214,36 +216,6 @@ def crear_visualizaciones(resultados):
                 st.write("---")
     else:
         st.write("No se detectaron frases.")
-
-# Lógica principal según el modo seleccionado
-if modo == "Texto directo":
-    st.subheader("Ingresa tu texto para analizar")
-    texto = st.text_area("", height=200, placeholder="Escribe o pega aquí el texto que deseas analizar...")
-    
-    if st.button("Analizar texto"):
-        if texto.strip():
-            with st.spinner("Analizando texto..."):
-                resultados = procesar_texto(texto)
-                crear_visualizaciones(resultados)
-        else:
-            st.warning("Por favor, ingresa algún texto para analizar.")
-
-elif modo == "Archivo de texto":
-    st.subheader("Carga un archivo de texto")
-    archivo = st.file_uploader("", type=["txt", "csv", "md"])
-    
-    if archivo is not None:
-        try:
-            contenido = archivo.getvalue().decode("utf-8")
-            with st.expander("Ver contenido del archivo"):
-                st.text(contenido[:1000] + ("..." if len(contenido) > 1000 else ""))
-            
-            if st.button("Analizar archivo"):
-                with st.spinner("Analizando archivo..."):
-                    resultados = procesar_texto(contenido)
-                    crear_visualizaciones(resultados)
-        except Exception as e:
-            st.error(f"Error al procesar el archivo: {e}")
 
 # Información adicional
 with st.expander("📚 Información sobre el análisis"):
