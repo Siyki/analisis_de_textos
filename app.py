@@ -13,8 +13,8 @@ st.set_page_config(
 )
 
 # Título y descripción
- banner=Image.open('emociones.jpg')
- st.image(banner)
+banner=Image.open('emociones.jpg')
+st.image(banner)
 st.title("🔮¿Qué tan feliz o triste es tu texto?")
 st.markdown("""
 Aquí podrás:
