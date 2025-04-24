@@ -7,18 +7,19 @@ from PIL import Image
 
 # Configuración de la página
 st.set_page_config(
-    page_title="Analizador de Texto Simple",
-    page_icon="📊",
+    page_title="¿Qué tan feliz o triste es tu texto?",
+    page_icon="🔮",
     layout="wide"
 )
 
 # Título y descripción
-st.title("📝 Analizador de Texto con TextBlob")
+st.title("🔮¿Qué tan feliz o triste es tu texto?")
 st.markdown("""
-Esta aplicación utiliza TextBlob para realizar un análisis básico de texto:
+Aquí podrás:
 - Análisis de sentimiento y subjetividad
 - Extracción de palabras clave
-- Análisis de frecuencia de palabras
+- Traducir incluso tu texto
+- Cargar un archivo de texto
 """)
 
 # Barra lateral
@@ -205,8 +206,12 @@ def crear_visualizaciones(resultados):
                     st.image(fotito)
                 elif sentimiento < -0.05:
                     emoji = "😟"
+                    foto2=Image.open('sad.png')
+                    st.image(foto2)
                 else:
                     emoji = "😐"
+                    foto3=Image.open('neutral.png')
+                    st.image(foto)
                 
                 st.write(f"{i}. {emoji} **Original:** *\"{frase_original}\"*")
                 st.write(f"   **Traducción:** *\"{frase_traducida}\"* (Sentimiento: {sentimiento:.2f})")
