@@ -3,6 +3,7 @@ import pandas as pd
 from textblob import TextBlob
 import re
 from googletrans import Translator
+from PIL import Image
 
 # Configuración de la página
 st.set_page_config(
@@ -200,6 +201,7 @@ def crear_visualizaciones(resultados):
                 
                 if sentimiento > 0.05:
                     emoji = "😊"
+                    fotito=Image.open('happy.png')
                 elif sentimiento < -0.05:
                     emoji = "😟"
                 else:
