@@ -202,6 +202,7 @@ def crear_visualizaciones(resultados):
                 if sentimiento > 0.05:
                     emoji = "😊"
                     fotito=Image.open('happy.png')
+                    st.image(fotito)
                 elif sentimiento < -0.05:
                     emoji = "😟"
                 else:
