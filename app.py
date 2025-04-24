@@ -209,7 +209,7 @@ def crear_visualizaciones(resultados):
                     foto2=Image.open('sad.png')
                     st.image(foto2)
 
-                elif sentimiento == 0.0 or 0.00:
+                elif sentimiento == 0.00:
                     emoji = "😐"
                     foto3=Image.open('neutral.png')
                     st.image(foto)
@@ -262,7 +262,8 @@ elif modo == "Archivo de texto":
 with st.expander("📚 Información sobre el análisis"):
     st.markdown("""
     ### Sobre el análisis de texto
-    
+
+    Cada variable te dará una imagen :D
     - **Sentimiento**: Varía de -1 (muy negativo) a 1 (muy positivo)
     - **Subjetividad**: Varía de 0 (muy objetivo) a 1 (muy subjetivo)
     
