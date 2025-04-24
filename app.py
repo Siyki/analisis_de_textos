@@ -208,6 +208,11 @@ def crear_visualizaciones(resultados):
                     emoji = "😟"
                     foto2=Image.open('sad.png')
                     st.image(foto2)
+
+                elif sentimiento == 0:
+                    emoji = "😐"
+                    foto3=Image.open('neutral.png')
+                    st.image(foto)
                 else:
                     emoji = "😐"
                     foto3=Image.open('neutral.png')
